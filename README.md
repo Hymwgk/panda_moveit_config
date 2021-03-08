@@ -10,9 +10,9 @@ is co-located under the ``ros-planning`` Github organization here.
 
 ## 介绍
 
-该包主要用于配合实体panda机械臂进行使用，主要实现的功能主要是两部分：
+该包主要用于配合实体panda机械臂进行使用，安装在工作站端（工控机端的配置参见https://github.com/Hymwgk/panda_server）主要实现的功能主要是两部分：
 
-- 设置本地ROS_MASTER_URL环境变量指向panda机械臂，并通过ssh与远程panda工控机进行通信，完成对远程实体机械臂的开锁、解锁等操作（前提一些配置，参看https://github.com/Hymwgk/panda_server）；
+- 设置本地ROS_MASTER_URL环境变量指向panda机械臂，并通过ssh与远程panda工控机进行通信，完成对远程实体机械臂的开锁、解锁等操作；
 
 - 可启动rviz & Moveit，实现对远程机械臂的轨迹规划等操作。
 
@@ -22,42 +22,73 @@ is co-located under the ``ros-planning`` Github organization here.
 
 1. 确保完成了https://github.com/Hymwgk/panda_server 的配置；
 
-2. 确保安装了moveit
+2. 确保工作站可免密码ssh登录远程工控机；
+
+3. 安装moveit
 
    ```
    sudo apt install ros-melodic-moveit
    ```
 
-3. 确保安装了panda的moveit配置包（我们的修改版本，包含了一些自定义launch文件）
+4. 安装panda的moveit配置包（我们的修改版本，包含了一些自定义launch文件）
+   ```
+   cd ~/catkin_ws/src
+   git clone https://github.com/Hymwgk/panda_moveit_config.git -b melodic-devel
+   cd ..
+   catkin build
+   echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc
+   ```
+   
+5.  安装panda的描述文件
+
     ```
-    cd ~/catkin_ws/src
-    git clone https://github.com/Hymwgk/panda_moveit_config.git -b melodic-devel
-    cd ..
-    catkin build
-    echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc
+    sudo apt-get install ros-melodic-franka-description
     ```
-     3.确保安装了panda的描述文件
-      ```
-      sudo apt-get install ros-melodic-franka-description
-      ```
-    4.确保安装了要求的显示工具
-      ```
-      sudo apt-get install ros-melodic-moveit-visual-tools
-      sudo apt-get install ros-melodic-moveit-ros-visualization
-      ```
-      或者直接
-      ```
-      sudo apt-get install ros-melodic-moveit-ros-*
-      ```
+
+6. 安装要求的显示工具
+
+   ```
+   sudo apt-get install ros-melodic-moveit-visual-tools
+   sudo apt-get install ros-melodic-moveit-ros-visualization
+   ```
+
+   或者直接
+
+   ```
+   sudo apt-get install ros-melodic-moveit-ros-*
+   ```
+
+7. 修改panda_client.sh，修改远程工控机局域网ip（例如下面的“192.168.1.139”）和账户名称(例如下图“zzu”)；还有机械臂FCI控制柜的ip（例如下图的“192.168.10.1”）
+
+![image-20210308212150772](/pic/image-20210308212150772.png)
+
+
+
+
+
+
 
 ## 使用（功能）
 
-1. 使用rviz中的Moveit插件来控制实体panda机械臂
+1. 使用工作站对同一局域网内的panda机械臂进行加锁解锁等操作
+
+   - 将`panda_client.sh`拷贝到方便访问的位置（可选）
+   
+- 执行解锁/锁定操作
+   
+     ```bash
+     source panda_client.sh -r
+  source panda_client.sh -l
+     ```
+
+     
+
+2. 使用rviz中的Moveit插件来控制实体panda机械臂
 
    - 查看...
    - 运行launch文件
 
-       ```
+       ```bash
         roslaunch panda_moveit_config zzu_panda_move.launch
        ```
 
@@ -67,10 +98,12 @@ is co-located under the ``ros-planning`` Github organization here.
 
        执行以下命令即可
 
-       ```
+       ```bash
        cd ~/catkin_ws/src/panda_moveit_config/config
        sudo cp -r collision   /opt/ros/melodic/share/franka_description/meshes
        ```
+       
+       如果出现以下错误，忽略即可，这个错误是由于binary版本Moveit的自带bug![image-20210308212403991](/pic/image-20210308212403991.png)
 
 
    - 配置moveit的GUI，主要关心的是右侧的参数，防止机械臂运动过快
