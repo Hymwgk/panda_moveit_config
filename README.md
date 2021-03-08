@@ -10,16 +10,25 @@ is co-located under the ``ros-planning`` Github organization here.
 
 ## 介绍
 
-该包主要用于配合实体panda机械臂进行使用，相较于官方包，本包修改和添加了部分文件；
+该包主要用于配合实体panda机械臂进行使用，主要实现的功能主要是两部分：
+
+- 设置本地ROS_MASTER_URL环境变量指向panda机械臂，并通过ssh与远程panda工控机进行通信，完成对远程实体机械臂的开锁、解锁等操作（前提一些配置，参看https://github.com/Hymwgk/panda_server）；
+
+- 可启动rviz & Moveit，实现对远程机械臂的轨迹规划等操作。
+
+
 
 ## 安装
 
-1. 确保安装了moveit
+1. 确保完成了https://github.com/Hymwgk/panda_server 的配置；
+
+2. 确保安装了moveit
 
    ```
    sudo apt install ros-melodic-moveit
    ```
-2. 确保安装了panda的moveit配置包（我们的修改版本，包含了一些自定义launch文件）
+
+3. 确保安装了panda的moveit配置包（我们的修改版本，包含了一些自定义launch文件）
     ```
     cd ~/catkin_ws/src
     git clone https://github.com/Hymwgk/panda_moveit_config.git -b melodic-devel
@@ -27,11 +36,11 @@ is co-located under the ``ros-planning`` Github organization here.
     catkin build
     echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc
     ```
- 3.确保安装了panda的描述文件
+     3.确保安装了panda的描述文件
       ```
       sudo apt-get install ros-melodic-franka-description
       ```
-4.确保安装了要求的显示工具
+    4.确保安装了要求的显示工具
       ```
       sudo apt-get install ros-melodic-moveit-visual-tools
       sudo apt-get install ros-melodic-moveit-ros-visualization
