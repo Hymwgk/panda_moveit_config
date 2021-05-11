@@ -10,7 +10,7 @@ is co-located under the ``ros-planning`` Github organization here.
 
 ## 介绍
 
-该包主要用于配合实体panda机械臂进行使用，安装在工作站端（工控机端的配置参见https://github.com/Hymwgk/panda_server）主要实现的功能主要是两部分：
+该包主要用于配合实体panda机械臂进行使用，安装在工作站端（需要对[工控机端进行配置](https://github.com/Hymwgk/panda_server)）,主要实现的功能主要是两部分：
 
 - 设置本地ROS_MASTER_URL环境变量指向panda机械臂，并通过ssh与远程panda工控机进行通信，完成对远程实体机械臂的开锁、解锁等操作；
 
