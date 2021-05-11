@@ -20,7 +20,7 @@ is co-located under the ``ros-planning`` Github organization here.
 
 ## 安装
 
-1. 确保完成了https://github.com/Hymwgk/panda_server 的配置；
+1. 确保完成了[工控机端的配置](https://github.com/Hymwgk/panda_server )；
 
 2. 确保工作站可免密码ssh登录远程工控机；
 
