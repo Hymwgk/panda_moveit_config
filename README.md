@@ -58,11 +58,21 @@ is co-located under the ``ros-planning`` Github organization here.
    sudo apt-get install ros-melodic-moveit-ros-*
    ```
 
-7. 修改panda_client.sh，修改远程工控机局域网ip（例如下面的“192.168.1.139”）和账户名称(例如下图“zzu”)；还有机械臂FCI控制柜的ip（例如下图的“192.168.10.1”）
+7. 修改`panda_client.sh`，修改远程工控机局域网ip（例如下面的`192.168.1.139`）和账户名称(例如下图`zzu`)，修改机械臂FCI控制柜的ip（例如下图的`192.168.10.1`），修改ROS_HOSTNAME为本机hostname(使用`hostname`命令查询，如下图`wgk`)
 
-![image-20210308212150772](/pic/image-20210308212150772.png)
+![image-20220301112156816](README.assets/image-20220301112156816.png)
 
+8. **在工控机端**，执行`ifconfig`和`hostname`命令，得到工作站网络局域网地址(假设为`192.168.1.139)`和工控机hostname(假设为`zzu-desktop`)；返回**工作站端**执行命令
 
+      ```
+      sudo gedit /etc/hosts
+      ```
+
+      将工控机的局域网ip以及hostname填写到工作站hosts文件中（如下图第三行）
+
+![image-20220301112626435](/README.assets/image-20220301112626435.png)
+
+9. 执行`sudo /etc/init.d/networking restart`重启网络服务
 
 
 
@@ -75,11 +85,11 @@ is co-located under the ``ros-planning`` Github organization here.
    - 将`panda_client.sh`拷贝到方便访问的位置（可选）
    
 - 执行解锁/锁定操作
-   
+  
      ```bash
      source panda_client.sh -r
   source panda_client.sh -l
-     ```
+  ```
 
      
 
@@ -94,7 +104,7 @@ is co-located under the ``ros-planning`` Github organization here.
 
        如果出现以下报错
 
-       ![image-20210308194742648](/pic/image-20210308194742648.png)
+       ![image-20210308194742648](./pic/image-20210308194742648.png)
 
        执行以下命令即可
 
@@ -103,9 +113,9 @@ is co-located under the ``ros-planning`` Github organization here.
        sudo cp -r collision   /opt/ros/melodic/share/franka_description/meshes
        ```
        
-       如果出现以下错误，忽略即可，这个错误是由于binary版本Moveit的自带bug![image-20210308212403991](/pic/image-20210308212403991.png)
+       如果出现以下错误，忽略即可，这个错误是由于binary版本Moveit的自带bug![image-20210308212403991](./pic/image-20210308212403991.png)
 
 
    - 配置moveit的GUI，主要关心的是右侧的参数，防止机械臂运动过快
 
-     ![image-20210308195221646](/pic/image-20210308195221646.png)
+     ![image-20210308195221646](./pic/image-20210308195221646.png)
