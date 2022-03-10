@@ -9,7 +9,7 @@
 remote_hostname="192.168.1.139"
 #远程工控机账户名加ip； 账户名@ip
 remote_user_hostname="zzu@192.168.1.139"
-#panda机械臂与远程工控机之间通讯用的ip地址
+#panda机械臂(如果有FCI控制柜，那就是控制柜ip)与远程工控机之间通讯用的ip地址
 robot_ip="192.168.10.1"
 #将本机的ROS_MASTER_URI变量指向远程工控机ip地址，端口11311不需要修改
 export ROS_MASTER_URI=http://192.168.1.139:11311
@@ -25,6 +25,12 @@ elif [ "${1}" == "-k" ] ; then
 elif [ "${1}" == "-l" ] ; then
 	ssh $remote_user_hostname "source ~/catkin_ws/src/panda_server/panda_server.sh -sd $robot_ip" >/dev/null 2>&1
 
+elif [ "${1}" == "-rc" ] ; then
+	ssh $remote_user_hostname "source ~/catkin_ws/src/panda_server/panda_server.sh -rc"
+
+elif [ "${1}" == "-kc" ] ; then
+	ssh $remote_user_hostname "source ~/catkin_ws/src/panda_server/panda_server.sh -kc"
+
 elif [ ! -z "${1}" ] ; then
 	
 	echo "远程计算机名称           user@hostname: $remote_user_hostname "
@@ -32,6 +38,8 @@ elif [ ! -z "${1}" ] ; then
 	echo "功能：后缀参数 -l          设置ROS_MASTER_URL，锁定机械臂, 关掉远程ros_controller"
 	echo "功能：后缀参数 -r          设置ROS_MASTER_URL，解锁机械臂，并重新启动远程ros_controller"
 	echo "功能：后缀参数 -k          设置ROS_MASTER_URL，仅仅ros_controller"
+	echo "功能：后缀参数 -rc          设置ROS_MASTER_URL，重/启动远程kinect相机"
+	echo "功能：后缀参数 -kc         设置ROS_MASTER_URL，关闭远程kinect相机"
 	
 fi
 

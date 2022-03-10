@@ -70,7 +70,7 @@ is co-located under the ``ros-planning`` Github organization here.
 
       将工控机的局域网ip以及hostname填写到工作站hosts文件中（如下图第三行）
 
-![image-20220301112626435](/README.assets/image-20220301112626435.png)
+![image-20220301112626435](./README.assets/image-20220301112626435.png)
 
 9. 执行`sudo /etc/init.d/networking restart`重启网络服务
 
